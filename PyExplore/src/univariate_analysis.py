@@ -3,23 +3,28 @@ import matplotlib.pyplot as plt
 import seaborn as sb
 
 
-_DEFAULT_PARAMS_DISTPLOT = {
-    'bins': 5, 'kde': True, 'color': 'teal', 'kde_kws': dict(linewidth=4, color='black'), 'rug': True
-}
-
-
 class _NVariateAnalysis:
 
     @staticmethod
-    def create_univariate_graphs(data: pd.DataFrame, save_path: str = False, context: dict = None, categorical_columns: list = None):
+    def _get_dist_default_params() -> None:
+        DEFAULT_PARAMS_DISTPLOT = {
+            'bins': 5, 'kde': True, 'color': 'teal', 'kde_kws': dict(linewidth=4, color='black'), 'rug': True
+        }
+
+        return DEFAULT_PARAMS_DISTPLOT
+
+
+    @staticmethod
+    def create_univariate_graphs(data: pd.DataFrame, save_path: str = False, categorical_columns: list = None):
         numeric_cols = data._get_numeric_data().columns
+        DEFAULT_PARAMS_DISTPLOT = _NVariateAnalysis._get_dist_default_params()
 
         if categorical_columns is not None:
             for feature in categorical_columns:
                 fig_dist, axes_dist = plt.subplots(1, 1, figsize=(30, 15))
                 sb.set_style('whitegrid')
 
-                sb.countplot(x=data[feature].dropna(), ax=axes_dist[0]).set(title='Full Dataset', xlabel=f'{feature.upper()}')
+                sb.countplot(x=data[feature].dropna(), ax=axes_dist).set(title='Full Dataset', xlabel=f'{feature.upper()}')
 
                 if save_path:
                     fig_dist.savefig(f'{save_path}{feature}.png')
@@ -30,10 +35,7 @@ class _NVariateAnalysis:
                     fig_dist, axes_dist = plt.subplots(2, 1, figsize=(30, 15))
                     sb.set_style('whitegrid')
 
-                    if context is not None:
-                        sb.distplot(x=data[feature].dropna(), **context, ax=axes_dist[0]).set(title='Full Dataset', xlabel=f'{feature.upper()}')
-                    else:
-                        sb.distplot(x=data[feature].dropna(), **_DEFAULT_PARAMS_DISTPLOT, ax=axes_dist[0]).set(title='Full Dataset', xlabel=f'{feature.upper()}')
+                    sb.distplot(x=data[feature].dropna(), **DEFAULT_PARAMS_DISTPLOT, ax=axes_dist[0]).set(title='Full Dataset', xlabel=f'{feature.upper()}')
 
                     sb.boxplot(x=data[feature].dropna(), ax=axes_dist[1]).set(xlabel=f'{feature.upper()}')
 
@@ -45,10 +47,7 @@ class _NVariateAnalysis:
                 fig_dist, axes_dist = plt.subplots(2, 1, figsize=(30, 15))
                 sb.set_style('whitegrid')
 
-                if context is not None:
-                    sb.distplot(x=data[feature].dropna(), **context, ax=axes_dist[0]).set(title='Full Dataset', xlabel=f'{feature.upper()}')
-                else:
-                    sb.distplot(x=data[feature].dropna(), **_DEFAULT_PARAMS_DISTPLOT, ax=axes_dist[0]).set(title='Full Dataset', xlabel=f'{feature.upper()}')
+                sb.distplot(x=data[feature].dropna(), **DEFAULT_PARAMS_DISTPLOT, ax=axes_dist[0]).set(title='Full Dataset', xlabel=f'{feature.upper()}')
 
                 sb.boxplot(x=data[feature].dropna(), ax=axes_dist[1]).set(xlabel=f'{feature.upper()}')
 

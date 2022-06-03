@@ -10,12 +10,12 @@ class ExploratoryDataAnalysis:
 
 
     @staticmethod
-    def run_univariate(data: pd.DataFrame, column_list: list = None, save_path: str = False, context: dict = None) -> None:
+    def run_univariate(data: pd.DataFrame, column_list: list = None, save_path: str = False, **context: dict) -> None:
         if column_list is not None:
-            _NVariateAnalysis.create_univariate_graphs(data=data[column_list], save_path=save_path)
+            _NVariateAnalysis.create_univariate_graphs(data=data[column_list], save_path=save_path, **context)
 
         else:
-            _NVariateAnalysis.create_univariate_graphs(data=data, save_path=save_path)
+            _NVariateAnalysis.create_univariate_graphs(data=data, save_path=save_path, **context)
 
 
     @staticmethod

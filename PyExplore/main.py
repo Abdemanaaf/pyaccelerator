@@ -11,7 +11,7 @@ def run() -> None:
     )
 
     ExploratoryDataAnalysis.run_univariate(
-        data, save_path='./results/plots/univariate/'
+        data, save_path='./results/plots/univariate/', categorical_columns=['Age']
     )
 
 
