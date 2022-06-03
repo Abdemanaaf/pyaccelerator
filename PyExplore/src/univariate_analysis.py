@@ -55,25 +55,25 @@ class _NVariateAnalysis:
                     fig_dist.savefig(f'{save_path}{feature}.png')
 
 
-    # @staticmethod
-    # def create_bivariate_graphs(data: pd.DataFrame, feat: str, label_col: str, path: str):
-    #     uniq_label_list = list(data[label_col].unique())
+    @staticmethod
+    def create_bivariate_graphs(data: pd.DataFrame, feat: str, label_col: str, path: str):
+        uniq_label_list = list(data[label_col].unique())
 
-    #     fig_dist, axes_dist = plt.subplots(3, len(uniq_label_list), figsize=(30, 15))
-    #     sb.set_style('whitegrid')
+        fig_dist, axes_dist = plt.subplots(3, len(uniq_label_list), figsize=(30, 15))
+        sb.set_style('whitegrid')
 
-    #     for label in range(len(uniq_label_list)):
-    #         X_data = data[data[label_col] == uniq_label_list[label]]
+        for label in range(len(uniq_label_list)):
+            X_data = data[data[label_col] == uniq_label_list[label]]
 
-    #         sb.distplot(
-    #             x=X_data[feat], bins=25, kde=True, color='teal', kde_kws=dict(linewidth=4, color='black'),
-    #             rug=True, ax=axes_dist[0, label]
-    #         ).set(title=f'{uniq_label_list[label]}'.upper())
+            sb.distplot(
+                x=X_data[feat], bins=25, kde=True, color='teal', kde_kws=dict(linewidth=4, color='black'),
+                rug=True, ax=axes_dist[0, label]
+            ).set(title=f'{uniq_label_list[label]}'.upper())
 
-    #         sb.boxplot(X_data[feat], ax=axes_dist[1, label]).set(title=f'{uniq_label_list[label]}'.upper())
+            sb.boxplot(X_data[feat], ax=axes_dist[1, label]).set(title=f'{uniq_label_list[label]}'.upper())
 
-    #         sb.stripplot(
-    #             y=X_data[feat].values, x=X_data[label_col].values, ax=axes_dist[2, label]
-    #         ).set(title=f'{uniq_label_list[label]}'.upper())
+            sb.stripplot(
+                y=X_data[feat].values, x=X_data[label_col].values, ax=axes_dist[2, label]
+            ).set(title=f'{uniq_label_list[label]}'.upper())
 
-    #     fig_dist.savefig(f'{path}/{feat}.png')
+        fig_dist.savefig(f'{path}/{feat}.png')

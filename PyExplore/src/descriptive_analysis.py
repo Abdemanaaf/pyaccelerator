@@ -1,9 +1,31 @@
+from sys import getsizeof
+from tabulate import tabulate
+
 import pandas as pd
 import numpy as np
 import scipy.stats as st
 
 
 class _DescriptiveAnalysis:
+
+    @staticmethod
+    def dataset_statistics(data: pd.DataFrame) -> None:
+        num_records, num_feat = data.shape
+
+        missing_cells = data.isna().sum().sum()
+        missing_percent = (missing_cells / (data.shape[0] * data.shape[1])) * 100
+
+        duplicate_rows = data.duplicated().sum()
+        duplicate_percent = (duplicate_rows / data.shape[0]) * 100
+
+        data_size = getsizeof(data)
+
+        num_col, cat_col = 0, 0
+
+        for feature in data.columns: cat_col += int(data[feature].dtype == 'object')
+        else: num_col += 1
+
+
 
     @staticmethod
     def feature_description(data: pd.DataFrame) -> pd.DataFrame:
